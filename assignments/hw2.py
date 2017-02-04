@@ -74,3 +74,17 @@ batches = vgg.get_batches(path + 'train', batch_size=batch_size)
 val_batches = vgg.get_batches(path + 'valid', batch_size=batch_size*2)
 vgg.finetune(batches)
 vgg.fit(batches, val_batches, nb_epoch=1)
+
+# save the weights
+vgg.model.save_weights('ft1_0123.h5')
+
+test_path = "/home/ubuntu/nbs/data/dogs-vs-cats-redux-kernels-edition/test1"
+batches, preds = vgg.test(test_path, batch_size = batch_size * 2)
+
+
+batches.filenames
+
+utils.save_array(path + 'results/test_preds2.dat', preds)
+
+utils.save_array(path + 'results/filenames2.dat', filenames)
+
