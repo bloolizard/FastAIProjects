@@ -19,9 +19,10 @@ batch_size = 64
 # set the path
 path = "/Users/edwizzle/Developer/FastAI/assignments/data/dogs-vs-cats-redux-kernels-edition/sample/"
 
-
+sys.path.extend(['/Users/edwizzle/Developer/FastAI/assignments'])
 
 # changes directory to a training set and copies random
+# cats
 path = "/Users/edwizzle/Developer/FastAI/assignments/data/dogs-vs-cats-redux-kernels-edition/train"
 os.chdir(path)
 from shutil import copyfile
@@ -29,3 +30,47 @@ cat_dir = "/Users/edwizzle/Developer/FastAI/assignments/data/dogs-vs-cats-redux-
 g = glob('cat*.jpg')
 shut = np.random.permutation(g)
 for i in range(200): copyfile(shut[i], cat_dir + shut[i])
+
+
+# changes directory to a training set and copies random
+# dogs
+path = "/Users/edwizzle/Developer/FastAI/assignments/data/dogs-vs-cats-redux-kernels-edition/train"
+os.chdir(path)
+from shutil import copyfile
+dog_dir = "/Users/edwizzle/Developer/FastAI/assignments/data/dogs-vs-cats-redux-kernels-edition/sample/train/dogs/"
+g = glob('dog*.jpg')
+shut = np.random.permutation(g)
+for i in range(200): copyfile(shut[i], dog_dir + shut[i])
+
+# do the same for validation sets
+# cat validation
+path = "/Users/edwizzle/Developer/FastAI/assignments/data/dogs-vs-cats-redux-kernels-edition/train"
+os.chdir(path)
+from shutil import copyfile
+cat_dir = "/Users/edwizzle/Developer/FastAI/assignments/data/dogs-vs-cats-redux-kernels-edition/sample/valid/cats/"
+g = glob('cat*.jpg')
+shut = np.random.permutation(g)
+for i in range(20): copyfile(shut[i], cat_dir + shut[i])
+
+# dog validation
+path = "/Users/edwizzle/Developer/FastAI/assignments/data/dogs-vs-cats-redux-kernels-edition/train"
+os.chdir(path)
+from shutil import copyfile
+dog_dir = "/Users/edwizzle/Developer/FastAI/assignments/data/dogs-vs-cats-redux-kernels-edition/sample/valid/dogs/"
+g = glob('dog*.jpg')
+shut = np.random.permutation(g)
+for i in range(20): copyfile(shut[i], dog_dir + shut[i])
+
+
+# actual training
+root_path = "/Users/edwizzle/Developer/FastAI/assignments/"
+path = "/Users/edwizzle/Developer/FastAI/assignments/data/dogs-vs-cats-redux-kernels-edition/sample/"
+
+os.chdir(root_path)
+batch_size = 64
+vgg = Vgg16()
+
+batches = vgg.get_batches(path + 'train', batch_size=batch_size)
+val_batches = vgg.get_batches(path + 'valid', batch_size=batch_size*2)
+vgg.finetune(batches)
+vgg.fit(batches, val_batches, nb_epoch=1)
