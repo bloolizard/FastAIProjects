@@ -79,8 +79,11 @@ vgg.fit(batches, val_batches, nb_epoch=1)
 vgg.model.save_weights('ft1_0123.h5')
 
 test_path = "/home/ubuntu/nbs/data/dogs-vs-cats-redux-kernels-edition/test1"
+test_path = "/Users/edwizzle/Developer/FastAI/assignments/data/dogs-vs-cats-redux-kernels-edition/test"
 batches, preds = vgg.test(test_path, batch_size = batch_size * 2)
 
+# show summary of the model
+vgg.model.summary()
 
 batches.filenames
 
