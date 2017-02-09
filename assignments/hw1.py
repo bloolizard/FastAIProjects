@@ -24,9 +24,9 @@ classes = [class_dict[str(i)][1] for i in range(len(class_dict))]
 
 def ConvBlock(layers, model, filters):
     for i in range(layers):
-        model.add(ZeroPadding2D)
+        model.add(ZeroPadding2D((1,1)))
         model.add(Convolution2D(filters, 3, 3, activation='relu'))
-    model.add(MaxPooling2D(2,2), strides=(2,2))
+    model.add(MaxPooling2D((2,2), strides=(2,2)))
 
 def FGBlock(model):
     model.add(Dense(4096, activation='relu'))
@@ -40,3 +40,22 @@ def vgg_preprocess(x):
 
 def VGG_16():
     model = Sequential()
+    model.add(Lambda(vgg_preprocess, input_shape=(3,224,224)))
+
+    ConvBlock(2, model, 64)
+    ConvBlock(2, model, 128)
+    ConvBlock(3, model, 256)
+    ConvBlock(3, model, 512)
+    ConvBlock(3, model, 512)
+
+    model.add(Flatten())
+    FGBlock(model)
+    FGBlock(model)
+    model.add(Dense(1000, activation='softmax'))
+    return model
+
+model = VGG_16()
+
+fpath = get_file('vgg16.h5', FILES_PATH+'vgg16.h5', cache_subdir='models')
+model.load_weights(fpath)
+
