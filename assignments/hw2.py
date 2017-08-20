@@ -85,7 +85,13 @@ batches, preds = vgg.test(test_path, batch_size = batch_size * 2)
 # show summary of the model
 vgg.model.summary()
 
-batches.filenames
+filenames = batches.filenames
+utils.save_array('results/filenames.dat', filenames)
+utils.save_array('results/preds.dat', preds)
+
+preds = utils.load_array('results/preds.dat')
+filenames = utils.load_array('results/filenames.dat')
+
 
 utils.save_array(path + 'results/test_preds2.dat', preds)
 

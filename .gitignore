@@ -1,3 +1,5 @@
 .DS_Store
 .idea/
 assignments/data/
+assignments/.ipynb_checkpoints/
+*.h5
