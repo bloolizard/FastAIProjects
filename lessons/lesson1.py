@@ -97,7 +97,7 @@ from utils import plots
 batch_size = 64
 
 # import our class
-from vgg import Vgg16
+from vgg16 import Vgg16
 vgg = Vgg16()
 
 # grab a few images at a time for training and validation
